@@ -15,7 +15,9 @@
                         class="card-header"
                         role="button">
                         <p class="card-header-title">
-                            {{ collapse.title }}
+                            <router-link :to="collapse.router">
+                                {{ collapse.title }}
+                            </router-link>    
                         </p>
                         <a class="card-header-icon">
                             <b-icon
@@ -66,11 +68,11 @@ export default {
             collapses: [
                 {
                     title: 'Usuarios',
-                    router: 'Text 2'
+                    router: '/users'
                 },
                 {
                     title: 'Ingredientes',
-                    router: 'Text 3'
+                    router: '/ingredients'
                 }
             ],
             secondMenu: [
