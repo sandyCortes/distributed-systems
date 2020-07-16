@@ -2,7 +2,7 @@
     <section>
         <div class="card">
             <div class="card-content">
-                <h5 class="title-card">Misión</h5>
+                <h5 class="title-card">Usuarios</h5>
                 <hr />
                 <b-table :data="data" :columns="columns"></b-table>
                 <b-button @click="hdlSumit" type="is-dark">Generar PDF</b-button>

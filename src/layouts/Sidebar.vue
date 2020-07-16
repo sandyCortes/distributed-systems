@@ -42,7 +42,9 @@
                         class="card-header"
                         role="button">
                         <p class="card-header-title">
-                            {{ collapse.title }}
+                            <router-link :to="collapse.router">
+                                {{ collapse.title }}
+                            </router-link>
                         </p>
                         <a class="card-header-icon">
                             <b-icon
@@ -78,11 +80,11 @@ export default {
             secondMenu: [
                 {
                     title: 'Reportes',
-                    router: 'Text 2'
+                    router: 'report'
                 },
                 {
                     title: 'Tienda',
-                    router: 'Text 2'
+                    router: 'store'
                 }
             ]
         }
