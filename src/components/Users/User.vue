@@ -13,33 +13,27 @@
 
 <script>
 import * as jsPDF from 'jspdf'
+import axios from 'axios'
 
 export default {
     
     data() {
         return {
-            data: [
-                { 'id': 1, 'first_name': 'Jesse', 'last_name': 'Simmons', 'date': '2016-10-15 13:43:27', 'gender': 'Male' },
-                { 'id': 2, 'first_name': 'John', 'last_name': 'Jacobs', 'date': '2016-12-15 06:00:53', 'gender': 'Male' },
-                { 'id': 3, 'first_name': 'Tina', 'last_name': 'Gilbert', 'date': '2016-04-26 06:26:28', 'gender': 'Female' },
-                { 'id': 4, 'first_name': 'Clarence', 'last_name': 'Flores', 'date': '2016-04-10 10:28:46', 'gender': 'Male' },
-                { 'id': 5, 'first_name': 'Anne', 'last_name': 'Lee', 'date': '2016-12-06 14:38:38', 'gender': 'Female' }
-            ],
-
+            data: [],
             columns: [
                 {
-                    field: 'id',
-                    label: 'ID',
+                    field: 'idUser',
+                    label: 'idUser',
                     width: '40',
                     numeric: true
                 },
                 {
-                    field: 'first_name',
-                    label: 'First Name',
+                    field: 'userName',
+                    label: 'Nombre',
                 },
                 {
-                    field: 'last_name',
-                    label: 'Last Name',
+                    field: 'surnames',
+                    label: 'Apellidos',
                 },
                 {
                     field: 'date',
@@ -47,25 +41,51 @@ export default {
                     centered: true
                 },
                 {
-                    field: 'gender',
-                    label: 'Gender',
+                    field: 'email',
+                    label: 'email',
                 }
             ]
         }
     },
 
+    mounted() {
+        this.getUsers()
+    },
+
     methods: {
+        async getUsers() {
+            const instance = axios.create({
+                baseURL: 'http://localhost:3000',
+                timeout: 1000,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+                    'Content-Type': 'application/json;charset=utf-8'
+                }
+            });
+
+            var res = await instance.get('/users')
+                .then(response => {
+                    return response
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            this.data = res.data
+        },
         hdlSumit() {
             this.generatePDF()
         },
         generatePDF() {
             var doc = new jsPDF()
 
-            for(var count = 0; count < this.data.length; count++) {
-                doc.text(this.data[count].first_name, 10, 10 * count+1)
+            for(var count = 1; count < this.data.length; count++) {
+                doc.text(this.data[count].userName, 10, 10 * count + 2)
+                doc.text(this.data[count].surnames, 50, 10 * count + 2)
+                doc.text(this.data[count].email, 100, 10 * count + 2)
                 
             } 
-            doc.save('a4.pdf')
+            doc.save('usuarios.pdf')
         },
         loadImage(url) {
             return new Promise((resolve) => {
